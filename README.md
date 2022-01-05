@@ -1,3 +1,6 @@
+# Cloud Trail Search
+(eventually) A search utility for AWS Cloud Trails
+
 ## S3
 
 * list S3
