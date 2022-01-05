@@ -1,0 +1,16 @@
+.chalice/deployments/
+.chalice/venv/
+__pycache__/
+*swp
+build/
+.pytest_cache/
+package/
+tags
+dev
+*.d
+deployed/
+deployments/
+vendor/
+dist/
+policies/sredev
+.egg-info
