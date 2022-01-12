@@ -4,9 +4,11 @@
 ## S3
 
 * list S3
-    * create boto3 s3 client
-    * create a bucket lister
-    * create a naive file lister
+    * create boto3 s3 client - DONE
+    * create a bucket lister - DONE
+    * create a naive file lister - DONE
+    * investigate server side filtering - DONE
+    * investigate generators
     * create a generator for file listing
 * download specific files from S3
 * create filters for
