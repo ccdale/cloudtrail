@@ -49,5 +49,37 @@ def getObjects(s3, bucketname):
         errorNotify(sys.exc_info()[2], e)
 
 
+def getObjs(s3, bucketname):
+    try:
+        kwargs = {"Bucket": bucketname}
+        maxpages = 3
+        finished = False
+        total = 0
+        pages = 0
+        while not finished:
+            res = s3.list_objects_v2(**kwargs)
+            # do something with the objects here
+            if "Contents" in res:
+                contents = res["Contents"]
+                cn = len(contents)
+                print(f"received {cn}")
+                total += cn
+                for obj in contents:
+                    yield obj
+            if "NextContinuationToken" in res:
+                kwargs["ContinuationToken"] = res["NextContinuationToken"]
+            else:
+                finished = True
+            pages += 1
+            if pages >= maxpages:
+                finished = True
+        print(f"total objects: {total}")
+    except Exception as e:
+        errorNotify(sys.exc_info()[2], e)
+
+
 if __name__ == "__main__":
-    listBuckets()
+    # listBuckets()
+    s3 = s3client()
+    for objx in getObjs(s3, "cloudtrail-secadmin-146be99826c04fd80739c629383bffb8"):
+        pass
