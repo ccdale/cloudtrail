@@ -1,6 +1,10 @@
 # Cloud Trail Search
 (eventually) A search utility for AWS Cloud Trails
 
+## Testing
+
+* use TDD
+
 ## S3
 
 * list S3
