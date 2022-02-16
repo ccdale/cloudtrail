@@ -51,5 +51,18 @@ def printBucketList():
         errorNotify(sys.exc_info()[2], e)
 
 
+def printObjectList():
+    try:
+        for obj in getObjectList(
+            "cloudtrail-secadmin-146be99826c04fd80739c629383bffb8",
+            pagesize=10,
+            maxpages=2,
+        ):
+            print(f"{obj['Key']}")
+    except Exception as e:
+        errorNotify(sys.exc_info()[2], e)
+
+
 if __name__ == "__main__":
-    printBucketList()
+    # printBucketList()
+    printObjectList()
