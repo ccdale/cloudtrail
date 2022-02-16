@@ -12,8 +12,8 @@
     * create a bucket lister - DONE
     * create a naive file lister - DONE
     * investigate server side filtering - DONE
-    * investigate generators
-    * create a generator for file listing
+    * investigate generators - DONE
+    * create a generator for file listing - DONE
     * filter more (endswith, contains)
 * download specific files from S3
 * create filters for
