@@ -10,6 +10,7 @@
     * investigate server side filtering - DONE
     * investigate generators
     * create a generator for file listing
+    * filter more (endswith, contains)
 * download specific files from S3
 * create filters for
     * name
