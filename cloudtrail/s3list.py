@@ -16,6 +16,24 @@ def getBucketListing():
         errorNotify(sys.exc_info()[2], e)
 
 
+def objectFilter(objname, filters=[]):
+    try:
+        score = 0
+        if filters:
+            for filt in filters:
+                if filt in objname:
+                    score += 1
+            return True if score == len(filters) else False
+        return True
+    except Exception as e:
+        exci = sys.exc_info()[2]
+        lineno = exci.tb_lineno
+        fname = exci.tb_frame.f_code.co_name
+        ename = type(e).__name__
+        msg = f"{ename} Exception at line {lineno} in function {fname}: {e}"
+        print(msg)
+        raise
+
 def getObjectList(
     bucket, prefix="", filters=[], postfix="", pagesize=1000, maxpages=None
 ):
@@ -31,7 +49,11 @@ def getObjectList(
             if "Contents" in res:
                 contents = res["Contents"]
                 for obj in contents:
-                    yield obj
+                    if objectFilter(obj["Key"], filters):
+                        if not postfix:
+                            yield obj
+                        elif postfix and obj["Key"].endswith(postfix):
+                            yield obj
             if "NextContinuationToken" in res:
                 kwargs["ContinuationToken"] = res["NextContinuationToken"]
             else:
