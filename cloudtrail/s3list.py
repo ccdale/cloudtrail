@@ -34,6 +34,7 @@ def objectFilter(objname, filters=[]):
         print(msg)
         raise
 
+
 def getObjectList(
     bucket, prefix="", filters=[], postfix="", pagesize=1000, maxpages=None
 ):
