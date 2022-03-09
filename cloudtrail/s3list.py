@@ -6,6 +6,41 @@ from cloudtrail import errorNotify
 from cloudtrail.s3 import s3client
 
 
+def objectFilter(objname, filters=[], postfix=""):
+    """Checks whether ALL the items in the filter list are present in the objname string
+    returns True if they are there and False if any are not present
+
+    object names look like:
+        AWSLogs/033675830184/CloudTrail/eu-west-1/2019/03/03/033675830184_CloudTrail_eu-west-1_20190303T0000Z_0VtR9xRawXkxVEH2.json.gz
+
+    Filters example:
+        ["033675830184", "eu-west-1", "20190303"]
+
+    the all() function returns True if all of it's args are Truthy, else it returns False
+    """
+    try:
+        # score = []
+        # if filters:
+        #     for x in filters:
+        #         if x in objname:
+        #             score.append(True)
+        #         else:
+        #             score.append(False)
+        #     return all(score)
+        fscore = all([str(x) in objname for x in filters])
+        pscore = True
+        if postfix:
+            if not objname.endswith(postfix):
+                pscore = False
+        return fscore and pscore
+    except TypeError as err:
+        if str(err) == "argument of type 'int' is not iterable":
+            print(f"Warning: {objname} is not a string. Returns False")
+        else:
+            raise
+        return False
+
+
 def getBucketListing():
     try:
         s3 = s3client()
@@ -25,13 +60,19 @@ def getObjectList(
         kwargs = {"Bucket": bucket, "MaxKeys": pagesize}
         if prefix != "":
             kwargs["Prefix"] = prefix
+        ipgsz = int(pagesize)
+        if ipgsz > 1000:
+            ipgsz = 1000
+        if ipgsz > 0:
+            kwargs["MaxKeys"] = ipgsz
         finished = False
         while not finished:
             res = s3.list_objects_v2(**kwargs)
             if "Contents" in res:
                 contents = res["Contents"]
                 for obj in contents:
-                    yield obj
+                    if objectFilter(obj["Key"], filters=filters, postfix=postfix):
+                        yield obj
             if "NextContinuationToken" in res:
                 kwargs["ContinuationToken"] = res["NextContinuationToken"]
             else:
