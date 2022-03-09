@@ -4,6 +4,8 @@
 ## Testing
 
 * use TDD
+Next week we will be concentrating on testing
+we definitely need  to test the objectFilter
 
 ## S3
 
