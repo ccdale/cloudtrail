@@ -14,7 +14,7 @@
     * investigate server side filtering - DONE
     * investigate generators - DONE
     * create a generator for file listing - DONE
-    * filter more (endswith, contains)
+    * filter more (endswith, contains) - DONE - REQUIRES TESTING
 * download specific files from S3
 * create filters for
     * name
